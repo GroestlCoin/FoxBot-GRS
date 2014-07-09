@@ -1,10 +1,7 @@
-FoxBot
+FoxBot-DGC
 ======
 
-A highly configurable IRC bot.
+A highly configurable IRC bot, 
+modded for digitalcoin by xawksow.
 
-http://foxbot.foxdev.co
-
-See CONTRIBUTING.md for contributing guidelines.
-
-[![Build Status](http://ci.notoriousdev.com/buildStatus/icon?job=FoxBot)](http://ci.notoriousdev.com/job/FoxBot/)
+Visit http://foxbot.foxdev.co for more information related to FoxBot.
