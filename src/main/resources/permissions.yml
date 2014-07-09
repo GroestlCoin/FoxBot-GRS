@@ -8,22 +8,18 @@ default:
     - command.ping
     - command.uptime
     - chat.urls
-    - command.git
-    - command.haspaid
+    - command.dgc
+    - command.btc
     - command.wtc
     - command.imgur
     - command.devoice
     - command.resolve
-    - command.geoip
-    - command.mcstatus
-    - command.mcping
     - command.hash
     - command.commands
     - command.shorten
-    - command.bukkitsearch
     - command.google
 # Permissions granted to specific users.
-revthefox.co.uk:
+#revthefox.co.uk:
 # TheReverend403: <-- if not using hostmask matching.
-    - example.permission
-    - '*'
+#    - example.permission
+#    - '*'

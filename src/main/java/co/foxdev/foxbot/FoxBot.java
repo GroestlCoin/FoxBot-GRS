@@ -89,7 +89,7 @@ public class FoxBot
         }
 
         config = new Config(this);
-        zncConfig = new ZncConfig(this);
+//        zncConfig = new ZncConfig(this);
         permissionManager = new PermissionManager(this);
         commandManager = new CommandManager(this);
 
