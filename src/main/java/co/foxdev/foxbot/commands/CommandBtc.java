@@ -18,6 +18,7 @@ import java.util.Locale;
 public class CommandBtc extends Command {
 
     private final FoxBot foxbot;
+    private final String address = "http://btc.blockr.io/api/v1/coin/info";
 
     /**
      * Displays the current market values of btc.
@@ -34,7 +35,7 @@ public class CommandBtc extends Command {
     public void execute(MessageEvent event, String[] args) {
         User user = event.getUser();
         Channel channel = event.getChannel();
-        String address = "http://btc.blockr.io/api/v1/coin/info";
+
 
         Connection conn = Jsoup.connect(address).ignoreContentType(true).followRedirects(true).timeout(1000);
 
@@ -47,7 +48,7 @@ public class CommandBtc extends Command {
         catch (IOException ex)
         {
             foxbot.getLogger().error("Error occurred while performing Google search", ex);
-            channel.send().message(Utils.colourise(String.format("(%s) &cSomething went wrong...", Utils.munge(user.getNick()))));
+            channel.send().message(Utils.colourise(String.format("(%s) &cSomething went wrong...", user.getNick())));
             return;
         }
 
