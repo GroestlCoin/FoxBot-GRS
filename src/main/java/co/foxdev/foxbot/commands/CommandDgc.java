@@ -68,7 +68,7 @@ public class CommandDgc extends Command {
         JSONObject cryptsyValues = jsonObject.getJSONObject("data").getJSONObject("markets").getJSONObject("cryptsy");
         String[] cw = getCoinwarsInfo().split(":");
 
-        String hashRate = String.format(Locale.US, "%.2f MH/s",Float.parseFloat(cw[0]));
+        String hashRate = cw[0];
         String volume = String.format(Locale.US, "%.8f BTC",Float.parseFloat(cw[1]));
         String difficulty = String.format(Locale.US,"%.8f", Float.parseFloat(lastBlock.getString("difficulty")));
         Double pricePf = cryptsyValues.getDouble("value");
@@ -111,13 +111,13 @@ public class CommandDgc extends Command {
             //channel.send().message(Utils.colourise(String.format("(%s) &cSomething went wrong...", user.getNick())));
         }
         String responseHTML = response.toString();
-        Pattern datePatt = Pattern.compile("([0-9]*?\\.[0-9]*?)\\sMH/s");
+        Pattern datePatt = Pattern.compile("([0-9]*?\\.[0-9]*?)\\s[a-zA-Z]H/s");
         Pattern volumePattern = Pattern.compile("([0-9]*?\\.[0-9]*?)\\sBTC");
         Matcher volumeMatch = volumePattern.matcher(responseHTML);
         Matcher m = datePatt.matcher(responseHTML);
 
         if(m.find()) {
-            hashRate = m.group(1);
+            hashRate = m.group(0);
         }
         if(volumeMatch.find())
             hashRate += ":"+volumeMatch.group(1);

@@ -8,11 +8,11 @@
 bot-owner: xawksow
 bot:
     # The bot's nick.
-    nick: DGCBot
+    nick: Coinelius
     # The bot's ident. Will show as botnick!ident@host.com
-    ident: dgcbot
+    ident: Coinelius
     # The name to show in /whois results.
-    realname: DGCBot
+    realname: Coinelius
 server:
     # The server address.
     address: irc.freenode.net
@@ -27,8 +27,9 @@ server:
     # List of channels for the bot to join on startup. Channel names must be enclosed in ''.
     # If the channel has a key, place it after a :, for example #foxdev:key
     channels:
-    - '#digitalcoin'
-    # - '#foxbot'
+     - '#digitalcoin'
+     #- '#derpadin'
+     - '#foundationdgc'
 auth:
     # Should we use nickserv?
     use-nickserv: true
