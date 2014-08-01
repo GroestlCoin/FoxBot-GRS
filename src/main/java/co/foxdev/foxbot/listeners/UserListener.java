@@ -19,13 +19,11 @@ package co.foxdev.foxbot.listeners;
 
 import co.foxdev.foxbot.FoxBot;
 import co.foxdev.foxbot.utils.Utils;
+import co.foxdev.foxbot.utils.database.Database;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
 import org.pircbotx.hooks.ListenerAdapter;
-import org.pircbotx.hooks.events.InviteEvent;
-import org.pircbotx.hooks.events.JoinEvent;
-import org.pircbotx.hooks.events.KickEvent;
-import org.pircbotx.hooks.events.QuitEvent;
+import org.pircbotx.hooks.events.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,9 +39,19 @@ public class UserListener extends ListenerAdapter
     }
 
     @Override
+    public void onPart(PartEvent event) throws Exception {
+        User user = event.getUser();
+        String nick = user.getNick();
+        Database.addLastSeen(nick);
+    }
+
+    @Override
     public void onQuit(QuitEvent event)
     {
         foxbot.getPermissionManager().removeAuthedUser(event.getUser());
+        User user = event.getUser();
+        String nick = user.getNick();
+        Database.addLastSeen(nick);
     }
 
     @Override
@@ -63,6 +71,7 @@ public class UserListener extends ListenerAdapter
     {
         User user = event.getUser();
         String nick = user.getNick();
+        Database.addLastSeen(nick);
         Channel channel = event.getChannel();
 
         if (nick.equals(foxbot.bot().getNick()))

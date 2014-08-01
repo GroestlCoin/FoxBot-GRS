@@ -21,9 +21,9 @@ public class CommandPool extends Command {
     private String address = ".poolerrangers.com/index.php?page=api&action=public&api_key=";
 
     /**
-     * Displays the current market values of dgc.
+     * Displays the current pool details for the given currency.
      * <p/>
-     * Usage: .dgc
+     * Usage: .pool dgc
      */
     public CommandPool(FoxBot foxbot)
     {
