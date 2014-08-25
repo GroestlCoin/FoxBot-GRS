@@ -36,7 +36,7 @@ public class CommandQuote extends Command {
 
             if(args[0].length() > 0 && StringUtils.isNumeric(args[0])) {
                 id = Integer.parseInt(args[0]);
-                result = Database.getRandomQuote();
+                result = Database.getQuote(id);
             }
 
         }

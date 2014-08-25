@@ -25,8 +25,7 @@ public class CommandPool extends Command {
      * <p/>
      * Usage: .pool dgc
      */
-    public CommandPool(FoxBot foxbot)
-    {
+    public CommandPool(FoxBot foxbot) {
         super("pool", "command.pool");
         this.foxbot = foxbot;
     }
@@ -37,17 +36,13 @@ public class CommandPool extends Command {
         Channel channel = event.getChannel();
         address = ".poolerrangers.com/index.php?page=api&action=public&api_key=";
 
-        if (args.length > 0)
-        {
-            if (args[0].length() > 0 && args[0].length() < 5)
-            {
-                address = "http://"+args[0]+ address;
-            }
-            else
-                address = "http://dgc"+ address;
-        }
-        else
-            address = "http://dgc"+ address;
+        if (args.length > 0) {
+            if (args[0].length() > 0 && args[0].length() < 5) {
+                address = "http://" + args[0] + address;
+            } else
+                address = "http://dgc" + address;
+        } else
+            address = "http://dgc" + address;
 
         Connection conn = Jsoup.connect(address).ignoreContentType(true).followRedirects(true).timeout(1000);
 
@@ -55,25 +50,27 @@ public class CommandPool extends Command {
         JSONObject jsonObject;
 
 
-        try
-        {
+        try {
             jsonObject = new JSONObject(conn.get().text());
 
             //networkHashObject = new JSONObject(conn3.get().text());
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             foxbot.getLogger().error("Error occurred while performing Google search", ex);
             channel.send().message(Utils.colourise(String.format("(%s) &cSomething went wrong...", user.getNick())));
             return;
         }
         String poolName = jsonObject.getString("pool_name");
-        String hashRate = String.format(Locale.US, "%.2f MH/s", jsonObject.getDouble("hashrate")/1024f);
-        String workers = ""+jsonObject.getInt("workers");
-        String shares = ""+jsonObject.getInt("shares_this_round");
-        String lastblock = ""+jsonObject.getInt("last_block");
-        String networkHash = String.format(Locale.US, "%.2f MH/s", jsonObject.getDouble("network_hashrate")/1024f/1024);
-        channel.send().message(poolName + " # Hashrate "+hashRate + " # Active Workers "+workers+" # Round Shares "+shares+" # Last Block "+lastblock +" # Network Hashrate "+networkHash + " # "+address.substring(0,address.indexOf("/",10)));
+        String hashRate = String.format(Locale.US, "%.2f MH/s", jsonObject.getDouble("hashrate") / 1024f);
+        String workers = "" + jsonObject.getInt("workers");
+        String shares = "" + jsonObject.getInt("shares_this_round");
+        String lastblock = "0";
+        try {
+            lastblock = "" + jsonObject.getInt("last_block");
+        } catch (Exception e) {
+            lastblock = "0";
+        }
+        String networkHash = String.format(Locale.US, "%.2f MH/s", jsonObject.getDouble("network_hashrate") / 1024f / 1024);
+        channel.send().message(poolName + " # Hashrate " + hashRate + " # Active Workers " + workers + " # Round Shares " + shares + " # Last Block " + lastblock + " # Network Hashrate " + networkHash + " # " + address.substring(0, address.indexOf("/", 10)));
 
 
     }

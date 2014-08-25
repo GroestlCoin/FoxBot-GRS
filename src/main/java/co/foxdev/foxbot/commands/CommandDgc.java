@@ -65,7 +65,7 @@ public class CommandDgc extends Command {
         }
 
         JSONObject lastBlock = jsonObject.getJSONObject("data").getJSONObject("last_block");
-        JSONObject cryptsyValues = jsonObject.getJSONObject("data").getJSONObject("markets").getJSONObject("cryptsy");
+        JSONObject cryptsyValues = jsonObject.getJSONObject("data").getJSONObject("markets").getJSONObject("btc38");
         String[] cw = getCoinwarsInfo().split(":");
 
         String hashRate = cw[0];
@@ -73,8 +73,8 @@ public class CommandDgc extends Command {
         String difficulty = String.format(Locale.US,"%.8f", Float.parseFloat(lastBlock.getString("difficulty")));
         Double pricePf = cryptsyValues.getDouble("value");
         String price = String.format(Locale.US,"%.8f BTC", pricePf);
-        String usd = String.format(Locale.US, "$%.2f", pricePf * (1 / exchangeObject.getJSONArray("data").getJSONObject(0).getJSONObject("rates").getDouble("BTC")));
-        channel.send().message("Difficulty "+ difficulty +" | Price "+usd+"/"+price+" & 24h Volume "+volume+" (Cryptsy) | Network "+hashRate );
+        String usd = String.format(Locale.US, "$%.3f", pricePf * (1 / exchangeObject.getJSONArray("data").getJSONObject(0).getJSONObject("rates").getDouble("BTC")));
+        channel.send().message("Difficulty " + difficulty + " | Price " + usd + "/" + price + " & 24h Volume " + volume + " (BTC38) | Network " + hashRate);
 
 
     }

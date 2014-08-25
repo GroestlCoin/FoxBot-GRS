@@ -1,12 +1,10 @@
 package co.foxdev.foxbot.commands;
 
-import ch.qos.logback.core.db.dialect.SQLiteDialect;
 import co.foxdev.foxbot.FoxBot;
 import co.foxdev.foxbot.utils.database.Database;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
 import org.pircbotx.hooks.events.MessageEvent;
-import org.sqlite.SQLiteConfig;
 
 /**
  * Created by xawksow on 30.07.14.
@@ -40,7 +38,7 @@ public class CommandAddQuote extends Command {
             {
                 String quote = event.getMessage();
                 quote = quote.substring(quote.indexOf(" ")+1);
-                quote = quote.replace("'","\\'");
+                quote = quote.replace("'", "");
                 if(quote.length() > 3) {
                     int id = Database.addQuote(user.getNick(), quote);
                     result = "Successfully added with id "+id+"!";

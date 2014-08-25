@@ -126,6 +126,11 @@ public class Config
         return botConfig.getStringList("server.channels");
     }
 
+    public List<String> getVoiceUser() {
+        return botConfig.getStringList("voice.user");
+    }
+
+
     // ------------
     // Auth section
     // ------------

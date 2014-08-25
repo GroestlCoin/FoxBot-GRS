@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 /**
  * FoxBot - A highly configurable IRC bot
@@ -69,6 +70,8 @@ public class FoxBot
     @Getter
     private Reflections reflections = new Reflections("co.foxdev.foxbot");
 
+    public static List<String> voiceUser;
+
     public static void main(String[] args)
     {
         FoxBot me = new FoxBot();
@@ -89,6 +92,7 @@ public class FoxBot
         }
 
         config = new Config(this);
+        voiceUser = config.getVoiceUser();
 //        zncConfig = new ZncConfig(this);
         permissionManager = new PermissionManager(this);
         commandManager = new CommandManager(this);
