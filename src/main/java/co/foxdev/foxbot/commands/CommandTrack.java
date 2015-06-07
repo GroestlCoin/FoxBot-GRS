@@ -19,6 +19,7 @@ public class CommandTrack extends Command {
     private final FoxBot foxbot;
     private String address = "http://chainz.cryptoid.info/dgc/api.dws?q=getbalance&a=";
 
+
     public CommandTrack(FoxBot foxbot) {
         super("track", "command.track");
         this.foxbot = foxbot;
@@ -37,7 +38,7 @@ public class CommandTrack extends Command {
                 info = "Address too short!";
 
         } else
-            info = "Usage: !balance DGC_ADDRESS";
+            info = "Usage: !track DGC_ADDRESS";
 
         try {
             if (info.equals(""))

@@ -1,8 +1,6 @@
 package co.foxdev.foxbot.commands;
 
 import co.foxdev.foxbot.FoxBot;
-import co.foxdev.foxbot.utils.database.Database;
-import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
 import org.pircbotx.hooks.events.MessageEvent;
@@ -12,7 +10,7 @@ import org.pircbotx.hooks.events.MessageEvent;
  */
 public class CommandWhoAmI extends Command {
 
-    public String url = "http://goo.gl/e9aB8h";
+    public String url = "http://goo.gl/bvbZLR";
     private final FoxBot foxbot;
 
     /**

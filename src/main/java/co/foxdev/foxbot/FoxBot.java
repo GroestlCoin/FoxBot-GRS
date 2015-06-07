@@ -97,6 +97,7 @@ public class FoxBot
         permissionManager = new PermissionManager(this);
         commandManager = new CommandManager(this);
 
+
         try
         {
             lookupService = new LookupService(new File("data/GeoLiteCity.dat"), LookupService.GEOIP_STANDARD);

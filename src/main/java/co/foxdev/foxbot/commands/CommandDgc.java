@@ -9,14 +9,8 @@ import org.pircbotx.Channel;
 import org.pircbotx.User;
 import org.pircbotx.hooks.events.MessageEvent;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by xawksow on 09.07.14.
@@ -24,9 +18,13 @@ import java.util.regex.Pattern;
 public class CommandDgc extends Command {
 
     private final FoxBot foxbot;
+
     private final String address = "http://dgc.blockr.io/api/v1/coin/info";
-    private final String exchangeAddress = "http://btc.blockr.io/api/v1/exchangerate/current";
-    private final String networkHashAddress = "http://www.coinwarz.com/cryptocurrency/coins/digitalcoin";
+    private final String shaHash = "http://dgcsha.mining.wtf/index.php?page=api&action=public&api_key=";
+    private final String scryptHash = "http://dgc.mining.wtf/index.php?page=api&action=public&api_key=";
+    private final String x11Hash = "http://dgcx11.mining.wtf/index.php?page=api&action=public&api_key=";
+    private final String cryptsy_dgc = "https://api.cryptsy.com/api/v2/markets/26";
+    private final String cryptsy_btc = "https://api.cryptsy.com/api/v2/markets/2";
 
     /**
      * Displays the current market values of dgc.
@@ -45,17 +43,26 @@ public class CommandDgc extends Command {
         Channel channel = event.getChannel();
 
         Connection conn = Jsoup.connect(address).ignoreContentType(true).followRedirects(true).timeout(1000);
-        Connection conn2 = Jsoup.connect(exchangeAddress).ignoreContentType(true).followRedirects(true).timeout(1000);
-        //Connection conn3 = Jsoup.connect(networkHashAddress).ignoreContentType(true).followRedirects(true).timeout(1000);
+        Connection sha = Jsoup.connect(shaHash).ignoreContentType(true).followRedirects(true).timeout(1000);
+        Connection scrypt = Jsoup.connect(scryptHash).ignoreContentType(true).followRedirects(true).timeout(1000);
+        Connection x11 = Jsoup.connect(x11Hash).ignoreContentType(true).followRedirects(true).timeout(1000);
+        Connection btc38DGC = Jsoup.connect(cryptsy_dgc).ignoreContentType(true).followRedirects(true).timeout(3500).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:34.0) Gecko/20100101 Firefox/34.0");
+        Connection btc38BTC = Jsoup.connect(cryptsy_btc).ignoreContentType(true).followRedirects(true).timeout(3500).userAgent("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:34.0) Gecko/20100101 Firefox/34.0");
         JSONObject jsonObject;
-        JSONObject exchangeObject;
-        //JSONObject networkHashObject;
+        JSONObject cryptsyDGCObject;
+        JSONObject cryptsyBTCObject;
+        JSONObject shaObject;
+        JSONObject scryptObject;
+        JSONObject x11Object;
 
         try
         {
             jsonObject = new JSONObject(conn.get().text());
-            exchangeObject = new JSONObject(conn2.get().text());
-            //networkHashObject = new JSONObject(conn3.get().text());
+            shaObject = new JSONObject(sha.get().text());
+            x11Object = new JSONObject(x11.get().text());
+            scryptObject = new JSONObject(scrypt.get().text());
+            cryptsyBTCObject = new JSONObject(btc38BTC.get().text());
+            cryptsyDGCObject = new JSONObject(btc38DGC.get().text());
         }
         catch (IOException ex)
         {
@@ -64,65 +71,18 @@ public class CommandDgc extends Command {
             return;
         }
 
-        JSONObject lastBlock = jsonObject.getJSONObject("data").getJSONObject("last_block");
-        JSONObject cryptsyValues = jsonObject.getJSONObject("data").getJSONObject("markets").getJSONObject("btc38");
-        String[] cw = getCoinwarsInfo().split(":");
+        JSONObject lastBlock = jsonObject.getJSONObject("data").getJSONObject("last_block");                    // get last block
+        Double price = cryptsyDGCObject.getJSONObject("data").getJSONObject("last_trade").getDouble("price");   // get DGC/BTC price
+        float volumeInfo = (float) cryptsyDGCObject.getJSONObject("data").getJSONObject("24hr").getDouble("volume_btc"); // get BTC volume
+        String hashRate = "SHA: " + String.format(Locale.US, "%.2f", shaObject.getLong("network_hashrate") / 1000f / 1000f / 1000f) + " GHs / X11: " + String.format(Locale.US, "%.2f", x11Object.getLong("network_hashrate") / 1000f / 1000f / 1000f) + " GHs / Scrypt: " + String.format(Locale.US, "%.2f", scryptObject.getLong("network_hashrate") / 1000f / 1000f / 1000f) + " GHs";
 
-        String hashRate = cw[0];
-        String volume = String.format(Locale.US, "%.8f BTC",Float.parseFloat(cw[1]));
+        // format values
+        String volume = String.format(Locale.US, "%.8f BTC", volumeInfo);
         String difficulty = String.format(Locale.US,"%.8f", Float.parseFloat(lastBlock.getString("difficulty")));
-        Double pricePf = cryptsyValues.getDouble("value");
-        String price = String.format(Locale.US,"%.8f BTC", pricePf);
-        String usd = String.format(Locale.US, "$%.3f", pricePf * (1 / exchangeObject.getJSONArray("data").getJSONObject(0).getJSONObject("rates").getDouble("BTC")));
-        channel.send().message("Difficulty " + difficulty + " | Price " + usd + "/" + price + " & 24h Volume " + volume + " (BTC38) | Network " + hashRate);
+        String priceText = String.format(Locale.US, "%.8f BTC", price);
+        String usd = String.format(Locale.US, "$%.2f", price * cryptsyBTCObject.getJSONObject("data").getJSONObject("last_trade").getDouble("price") * 1000f);
+        channel.send().message("Difficulty " + difficulty + " | Price " + usd + "/1000 | " + priceText + " & 24h Volume " + volume + " (Cryptsy) | Network " + hashRate);
 
-
-    }
-
-    public String getCoinwarsInfo(){
-        StringBuffer response = new StringBuffer();
-        String hashRate = "0";
-        try {
-
-            URL obj = new URL(networkHashAddress);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            // optional default is GET
-            con.setRequestMethod("GET");
-
-            //add request header
-            con.setRequestProperty("User-Agent", "DGC Bot");
-
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + networkHashAddress);
-            System.out.println("Response Code : " + responseCode);
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-        }
-        catch (Exception e) {
-            //channel.send().message(Utils.colourise(String.format("(%s) &cSomething went wrong...", user.getNick())));
-        }
-        String responseHTML = response.toString();
-        Pattern datePatt = Pattern.compile("([0-9]*?\\.[0-9]*?)\\s[a-zA-Z]H/s");
-        Pattern volumePattern = Pattern.compile("([0-9]*?\\.[0-9]*?)\\sBTC");
-        Matcher volumeMatch = volumePattern.matcher(responseHTML);
-        Matcher m = datePatt.matcher(responseHTML);
-
-        if(m.find()) {
-            hashRate = m.group(0);
-        }
-        if(volumeMatch.find())
-            hashRate += ":"+volumeMatch.group(1);
-       // hashRate = m.group(1);
-        return hashRate;
 
     }
 

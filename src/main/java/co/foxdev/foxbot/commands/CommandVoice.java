@@ -47,15 +47,23 @@ public class CommandVoice extends Command
 
         if (args.length > 0)
         {
+
             if (foxbot.getPermissionManager().userHasQuietPermission(sender, "command.voice.others"))
             {
-                for (String target : args)
-                {
-                    User user = foxbot.bot().getUserChannelDao().getUser(target);
-
-                    if (!channel.hasVoice(user))
+                if (args[0].equals("-")) {
+                    for (User user : channel.getUsers()) {
+                        if (!channel.hasVoice(user)) {
+                            channel.send().voice(user);
+                        }
+                    }
+                } else {
+                    for (String target : args)
                     {
-                        channel.send().voice(user);
+                        User user = foxbot.bot().getUserChannelDao().getUser(target);
+
+                        if (!channel.hasVoice(user)) {
+                            channel.send().voice(user);
+                        }
                     }
                 }
                 return;

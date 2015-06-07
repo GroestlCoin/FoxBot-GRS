@@ -103,7 +103,7 @@ public class CommandBtc extends Command {
             //channel.send().message(Utils.colourise(String.format("(%s) &cSomething went wrong...", user.getNick())));
         }
         String responseHTML = response.toString();
-        Pattern datePatt = Pattern.compile("([0-9]*?\\.[0-9]*?)\\s[a-zA-Z]H/s");
+        Pattern datePatt = Pattern.compile("([0-9]*?\\.[0-9]*?)\\s[a-zA-Z]H/s\\s*</td>");
         Pattern volumePattern = Pattern.compile("([0-9]*?\\.[0-9]*?)\\sBTC");
         Matcher volumeMatch = volumePattern.matcher(responseHTML);
         Matcher m = datePatt.matcher(responseHTML);
@@ -111,6 +111,7 @@ public class CommandBtc extends Command {
         if(m.find()) {
             hashRate = m.group(0);
         }
+        hashRate = hashRate.substring(0, hashRate.lastIndexOf("s") + 1);
         if(volumeMatch.find())
             hashRate += ":"+volumeMatch.group(1);
         // hashRate = m.group(1);

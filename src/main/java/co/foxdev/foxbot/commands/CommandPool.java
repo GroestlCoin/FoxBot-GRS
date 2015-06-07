@@ -18,7 +18,7 @@ import java.util.Locale;
 public class CommandPool extends Command {
 
     private final FoxBot foxbot;
-    private String address = ".poolerrangers.com/index.php?page=api&action=public&api_key=";
+    private String address = ".mining.wtf/index.php?page=api&action=public&api_key=";
 
     /**
      * Displays the current pool details for the given currency.
@@ -34,10 +34,10 @@ public class CommandPool extends Command {
     public void execute(MessageEvent event, String[] args) {
         User user = event.getUser();
         Channel channel = event.getChannel();
-        address = ".poolerrangers.com/index.php?page=api&action=public&api_key=";
+        address = ".mining.wtf/index.php?page=api&action=public&api_key=";
 
         if (args.length > 0) {
-            if (args[0].length() > 0 && args[0].length() < 5) {
+            if (args[0].length() > 0 && args[0].length() < 7) {
                 address = "http://" + args[0] + address;
             } else
                 address = "http://dgc" + address;
@@ -69,7 +69,7 @@ public class CommandPool extends Command {
         } catch (Exception e) {
             lastblock = "0";
         }
-        String networkHash = String.format(Locale.US, "%.2f MH/s", jsonObject.getDouble("network_hashrate") / 1024f / 1024);
+        String networkHash = String.format(Locale.US, "%.2f GH/s", jsonObject.getDouble("network_hashrate") / 1000f / 1000f / 1000f);
         channel.send().message(poolName + " # Hashrate " + hashRate + " # Active Workers " + workers + " # Round Shares " + shares + " # Last Block " + lastblock + " # Network Hashrate " + networkHash + " # " + address.substring(0, address.indexOf("/", 10)));
 
 
