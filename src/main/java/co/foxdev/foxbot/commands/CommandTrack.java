@@ -17,7 +17,7 @@ import java.net.URL;
 public class CommandTrack extends Command {
 
     private final FoxBot foxbot;
-    private String address = "http://chainz.cryptoid.info/dgc/api.dws?q=getbalance&a=";
+    private String address = "http://chainz.cryptoid.info/grs/api.dws?q=getbalance&a=";
 
 
     public CommandTrack(FoxBot foxbot) {
@@ -38,7 +38,7 @@ public class CommandTrack extends Command {
                 info = "Address too short!";
 
         } else
-            info = "Usage: !track DGC_ADDRESS";
+            info = "Usage: !track GRS_ADDRESS";
 
         try {
             if (info.equals(""))
@@ -86,7 +86,7 @@ public class CommandTrack extends Command {
         }
         String responseHTML = response.toString();
 
-        resp = "Address " + dgcAddress + " is holding " + responseHTML + " DGC.";
+        resp = "Address " + dgcAddress + " is holding " + responseHTML + " GRS.";
         return resp;
 
     }
