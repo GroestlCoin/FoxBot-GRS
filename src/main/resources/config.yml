@@ -8,11 +8,11 @@
 bot-owner: xawksow
 bot:
     # The bot's nick.
-    nick: DGCBot
+    nick: GroestlBot
     # The bot's ident. Will show as botnick!ident@host.com
-    ident: dgcbot
+    ident: GroestlBot
     # The name to show in /whois results.
-    realname: DGCBot
+    realname: GroestlBot
 server:
     # The server address.
     address: irc.freenode.net
@@ -27,23 +27,30 @@ server:
     # List of channels for the bot to join on startup. Channel names must be enclosed in ''.
     # If the channel has a key, place it after a :, for example #foxdev:key
     channels:
-    - '#digitalcoin'
-    # - '#foxbot'
+     #- '#digitalcoin'
+     - '#Groestlcoin'
+     #- '#foundationdgc'
+voice:
+    user:
+    - 'E-grs_Electrum1'
+    - 'E-grs_Electrum1'
+    - 'GroestlTip'
+    - 'GroestlBot'
 auth:
     # Should we use nickserv?
-    use-nickserv: true
+    use-nickserv: false
     # The bot's nickserv password.
-    nickserv-password: password
+    nickserv-password: thisisthenickservpass
     # Do users have to be authed with nickserv to use bot commands?
     users-must-be-verified: false
     # Should we match users based on hostmasks? This mode is secure enough that you don't need to use "users-must-be-verified".
-    match-users-by-hostmask: true
+    match-users-by-hostmask: false
 user-punishment:
     # Time in seconds to unban users after a bot ban. Set to 0 to disable.
     unban-timer: 86400
 misc:
     # If the bot sees a message beginning with this, it is treated as a command. Can only be one character.
-    command-prefix: '!'
+    command-prefix: '.'
     # Should the bot accept invites from users with bot.invite?
     auto-join-on-invite: false
     # Should the bot rejoin a channel after being kicked?
@@ -65,12 +72,12 @@ misc:
     ignored-channels: []
     #- '#annoyingchannel'
     # If a user joins one of these channels, the bot will send a greeting to them. Set this to [] if you don't want any greetings.
-    channels-to-greet: []
-    #- '#digitalcoin-dev'
+    channels-to-greet:
+    - '#Groestlcoin'
     #- '#foxbot'
     # The message to send to the user if greetings are being used.
     # Key: {USER} = The user's nick, {CHANNEL} = The channel name, {CHANUSERS} = The amount of people in the channel.
-    greeting-message: '&2Welcome to &c{CHANNEL}&2, &c{USER}&2. I am the channel''s help bot. There are currently &c{CHANUSERS}&2 people in this channel, however, some of them may be AFK, so if you have a question, please just ask it and wait patiently.&r'
+    greeting-message: '&2Welcome to &c{CHANNEL}&2, &c{USER}&2. I am GroestlBot, for more information about me type !whoami or !help into the channel. There are currently &c{CHANUSERS}&2 people in this channel, however, some of them may be away, so please be patient for a response if you have a question.&r'
     # Should we send the greeting as a notice rather than a message to the channel?
     send-greeting-as-notice: true
 sounds:
@@ -80,6 +87,4 @@ sounds:
     sound-extension: 'mp3'
 # List of lines that will be sent to a user when he uses the help command
 help:
-  - 'This is a bot run and modified by xawksow.'
-  - 'Try !dgc, !btc or !commands for more commands.'
-
+  - 'Try .grs, .trade, .whoami, .imgur, .track, .quote, .btc or .commands for more commands.'
