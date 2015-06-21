@@ -32,25 +32,10 @@ server:
      #- '#foundationdgc'
 voice:
     user:
-    - 'vinje'
-    - 'ahmed_'
-    - 'cosmon'
-    - 'kenel'
-    - 'bittrex-ryan'
-    - 'cptargentum'
-    - 'flound1129'
-    - 'jackstraw'
-    - 'jdebunt'
-    - 'joeyjones'
-    - 'mtree5'
-    - 'scrappy_d0'
-    - 'shack4'
-    - 'trenal'
-    - 'vinje'
-    - 'yna'
-    - 'matugm'
-    - 'cohe'
-    - 'melt7777'
+    - 'E-grs_Electrum1'
+    - 'E-grs_Electrum1'
+    - 'GroestlTip'
+    - 'GroestlBot'
 auth:
     # Should we use nickserv?
     use-nickserv: false
@@ -65,7 +50,7 @@ user-punishment:
     unban-timer: 86400
 misc:
     # If the bot sees a message beginning with this, it is treated as a command. Can only be one character.
-    command-prefix: '!'
+    command-prefix: '.'
     # Should the bot accept invites from users with bot.invite?
     auto-join-on-invite: false
     # Should the bot rejoin a channel after being kicked?
@@ -88,13 +73,13 @@ misc:
     #- '#annoyingchannel'
     # If a user joins one of these channels, the bot will send a greeting to them. Set this to [] if you don't want any greetings.
     channels-to-greet:
-    - '#digitalcoin'
+    - '#Groestlcoin'
 
 
     #- '#foxbot'
     # The message to send to the user if greetings are being used.
     # Key: {USER} = The user's nick, {CHANNEL} = The channel name, {CHANUSERS} = The amount of people in the channel.
-    greeting-message: '&2Welcome to &c{CHANNEL}&2, &c{USER}&2. I am Coinelius Digitalis, for more information about me type !whoami or !help into the channel. There are currently &c{CHANUSERS}&2 people in this channel, however, some of them may be away, so please be patient for a response if you have a question.&r'
+    greeting-message: '&2Welcome to &c{CHANNEL}&2, &c{USER}&2. I am GroestlBot, for more information about me type !whoami or !help into the channel. There are currently &c{CHANUSERS}&2 people in this channel, however, some of them may be away, so please be patient for a response if you have a question.&r'
     # Should we send the greeting as a notice rather than a message to the channel?
     send-greeting-as-notice: true
 sounds:
@@ -105,5 +90,5 @@ sounds:
 # List of lines that will be sent to a user when he uses the help command
 help:
   - 'This is a bot modified by xawksow and ran by Jackielove4u.'
-  - 'Try !grs, !trade, !whoami, !imgur, !track, !quote, !btc or !commands for more commands.'
+  - 'Try .grs, .trade, .whoami, .imgur, .track, .quote, .btc or .commands for more commands.'
 
