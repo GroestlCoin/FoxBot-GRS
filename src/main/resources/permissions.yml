@@ -8,7 +8,7 @@ default:
     - command.ping
     - command.uptime
     - chat.urls
-    - command.dgc
+    - command.grs
     - command.btc
     - command.wtc
     - command.imgur
