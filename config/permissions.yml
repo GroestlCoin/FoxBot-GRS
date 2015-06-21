@@ -1,0 +1,39 @@
+# If a user is not logged in and you set the bot to require logged in users, only the unverified permissions will do anything.
+# if a user has a -permission.node, they will be UNABLE to use that command.
+# The '*' node grants that user ALL permissions.
+
+# Permissions granted to all users.
+default:
+    - command.help
+    - command.ping
+    - command.uptime
+    - chat.urls
+    - command.grs
+    - command.btc
+    - command.block
+    - command.wtc
+    - command.addquote
+    - command.whoami
+    - command.quote
+    - command.findquote
+    - command.imgur
+    - command.devoice
+    - command.voice
+    - command.randquote
+    - command.lastquote
+    - command.track
+    - command.seen
+    - command.say
+    - command.resolve
+    - command.hash
+    - command.commands
+    - command.shorten
+    - command.trade
+    - command.google
+# Permissions granted to specific users.
+#revthefox.co.uk:
+# TheReverend403: <-- if not using hostmask matching.
+#    - example.permission
+#    - '*'
+Jackielove4u:
+    - '*'
