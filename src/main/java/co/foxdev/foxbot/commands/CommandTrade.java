@@ -2,25 +2,22 @@ package co.foxdev.foxbot.commands;
 
 import co.foxdev.foxbot.FoxBot;
 import co.foxdev.foxbot.utils.Utils;
+import org.json.JSONObject;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 import org.pircbotx.Channel;
 import org.pircbotx.User;
 import org.pircbotx.hooks.events.MessageEvent;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by xawksow on 24.07.14.
  */
 public class CommandTrade extends Command {
     private final FoxBot foxbot;
-    private String address = "https://www.cryptsy.com";
-    private String currency = "DGC";
+    private String address = "https://poloniex.com/public?command=returnTicker";
+    private String currency = "GRS";
     private float amount = 1000f;
 
     /**
@@ -38,7 +35,7 @@ public class CommandTrade extends Command {
         User user = event.getUser();
         String info = "";
         Channel channel = event.getChannel();
-        currency = "DGC/BTC";
+        currency = "BTC_GRS";
         amount = 1000f;
         if (args.length > 0) {
             try {
@@ -47,17 +44,17 @@ public class CommandTrade extends Command {
 
             if (args.length > 1)
                 if (args[1].length() > 0 && args[1].length() < 9) {
-                    currency = args[1];
+                    currency = args[1].replace("/", "_");
                 }
             } catch (Exception e) {
-                info = "Usage: !trade 1000 DGC/BTC";
+                info = "Usage: !trade 1000 BTC/GRS";
             }
         } else
-            info = "Usage: !trade 1000 DGC/BTC";
+            info = "Usage: !trade 1000 BTC/GRS";
 
         try {
             if (info.equals(""))
-                info = getCryptsyInfo();
+                info = getPoloniexInfo();
 
             //networkHashObject = new JSONObject(conn3.get().text());
         } catch (Exception e) {
@@ -71,62 +68,34 @@ public class CommandTrade extends Command {
 
     }
 
-    public String getCryptsyInfo() {
-        StringBuffer response = new StringBuffer();
-        String resp = "";
+    public String getPoloniexInfo() {
+        JSONObject jsonObject;
+
         try {
-
-            URL obj = new URL(address);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            // optional default is GET
-            con.setRequestMethod("GET");
-
-            //add request header
-            con.setRequestProperty("User-Agent", "DGC Bot");
-
-            int responseCode = con.getResponseCode();
-            System.out.println("\nSending 'GET' request to URL : " + address);
-            System.out.println("Response Code : " + responseCode);
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
+            Connection conn = Jsoup.connect(address).ignoreContentType(true).followRedirects(true).timeout(1000);
+            jsonObject = new JSONObject(conn.get().text());
 
 
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
         } catch (Exception e) {
             //channel.send().message(Utils.colourise(String.format("(%s) &cSomething went wrong...", user.getNick())));
+            return "";
         }
-        String responseHTML = response.toString();
+
+        final JSONObject pairJsonObject = jsonObject.getJSONObject(currency);
+
+        double bid = pairJsonObject.getDouble("highestBid");
+        double ask = pairJsonObject.getDouble("lowestAsk");
+        double vol = pairJsonObject.getDouble("baseVolume");
+        double last = pairJsonObject.getDouble("last");
+
         String cur1 = "";
         String cur2 = "";
-        String[] curs = currency.toUpperCase().split("/");
+        String[] curs = currency.toUpperCase().split("_");
         cur1 = curs[0];
         cur2 = curs[1];
 
-        String usdprice = "";
-        if (!cur1.equals("BTC")) {
-            Pattern btcUsd = Pattern.compile(cur2 + "/USD .*?>([0-9]*?\\.[0-9]*?)</span>");
-            Matcher m = btcUsd.matcher(responseHTML);
 
-            if (m.find()) {
-                usdprice = m.group(1);
-            }
-        }
-
-        Pattern curBtc = Pattern.compile(currency.toUpperCase() + " .*?>([0-9]*?\\.[0-9]*?)</span>");
-        Matcher m2 = curBtc.matcher(responseHTML);
-        String btcprice = "";
-        if (m2.find())
-            btcprice = m2.group(1);
-
-        resp = amount + " " + cur1 + " equals " + String.format(Locale.US, "%.8f " + cur2, Float.parseFloat(btcprice) * amount);
-        if (!cur1.equals("BTC"))
-            resp += " or " + String.format(Locale.US, "%.2f$", (Float.parseFloat(btcprice) * Float.parseFloat(usdprice)) * amount);
+        String resp = amount + " " + cur2 + " equals " + String.format(Locale.US, "%.8f " + cur1, last * amount);
         return resp;
 
     }

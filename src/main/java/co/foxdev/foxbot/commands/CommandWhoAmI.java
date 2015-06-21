@@ -10,7 +10,7 @@ import org.pircbotx.hooks.events.MessageEvent;
  */
 public class CommandWhoAmI extends Command {
 
-    public String url = "http://goo.gl/bvbZLR";
+    public String url = "http://imgur.com/lrhEYml";
     private final FoxBot foxbot;
 
     /**
@@ -28,7 +28,7 @@ public class CommandWhoAmI extends Command {
     public void execute(MessageEvent event, String[] args) {
         User user = event.getUser();
         Channel channel = event.getChannel();
-        String result = "I am Coinelius Digitalis, a lovable little mascot made by the DGC Community. Selfie: "+url;
+        String result = "I am GroestlBot and Jackielove4u said i look like this: " + url;
 
 
         channel.send().message(result);
