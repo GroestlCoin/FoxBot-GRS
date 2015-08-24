@@ -73,7 +73,7 @@ public class UserListener extends ListenerAdapter
         String nick = user.getNick();
         Database.addLastSeen(nick);
         Channel channel = event.getChannel();
-        if (channel.getName().equals("#digitalcoin")) {
+        if (channel.getName().equals("#Groestlcoin")) {
             if (!channel.hasVoice(user) && FoxBot.voiceUser.contains(user.getNick().toLowerCase())) {
                 channel.send().voice(user);
             }
