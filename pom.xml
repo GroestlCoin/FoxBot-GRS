@@ -77,14 +77,14 @@
     </contributors>
 
     <scm>
-        <connection>scm:git:git://github.com/FoxDev/FoxBot.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/FoxDev/FoxBot.git</developerConnection>
-        <url>https://github.com/FoxDev/FoxBot</url>
+        <connection>scm:git:git://github.com/Groestlcoin/FoxBot-GRS.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/Groestlcoin/FoxBot-GRS.git</developerConnection>
+        <url>https://github.com/Groestlcoin/FoxBot-GRS</url>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/FoxDev/FoxBot/issues</url>
+        <url>https://github.com/Groestlcoin/FoxBot-GRS/issues</url>
     </issueManagement>
 
     <ciManagement>
